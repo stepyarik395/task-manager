@@ -44,11 +44,10 @@ const getListStyle = isDraggingOver => ({
 const App = () => {
   const store = useSelector(state => state);
   const dispatch = useDispatch();
-  
+
   const getItems = (offset = 1) => {
     const rez = []
-    const arr = ['like', 'shine', 'destruction', 'suleman', 'king']
-    arr.map((item, index) => {
+    store.arrtask.map((item, index) => {
       const obj = {
         id: `item-${index + offset}`,
         content: `${item}`
@@ -59,6 +58,7 @@ const App = () => {
   }
 
   const [state, setState] = useState([getItems()]);
+
   function onDragEnd(result) {
     const { source, destination } = result;
     if (!destination) {
@@ -85,12 +85,14 @@ const App = () => {
     <div>
       <input type="text" onChange={(e) => {
         dispatch({
-          type: "ADD__NEW__TASK",
+          type: "HANDLE__NAME__TASK",
           payload : e.target.value
         })
       }}></input>
       <button onClick={() => {
-
+        dispatch({
+          type: "ADD__NEW__TASK"
+        })
       }}>add new Task</button>
       <button
         type="button"
@@ -100,14 +102,7 @@ const App = () => {
       >
         Add new group
       </button>
-      {/* <button
-        type="button"
-        onClick={() => {
-          setState([...state, getItems(1)]);
-        }}
-      >
-        Add new item
-      </button> */}
+      
       <div style={{ display: "flex" }}>
         <DragDropContext onDragEnd={onDragEnd}>
           {state.map((el, ind) => (
