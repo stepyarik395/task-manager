@@ -3,22 +3,12 @@ import './App.css';
 import styled from 'styled-components';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
-
-
-const getItems = (count, offset = 0) =>
-  Array.from({ length: count }, (v, k) => k).map(k => ({
-    id: `item-${k + offset}-${new Date().getTime()}`,
-    content: `item ${k + offset}`
-  }));
-
-
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
   return result;
 };
-
 
 const move = (source, destination, droppableSource, droppableDestination) => {
   const sourceClone = Array.from(source);
@@ -51,8 +41,22 @@ const getListStyle = isDraggingOver => ({
 
 
 const App = () => {
+  
+  const getItems = (offset = 1) => {
+    const rez = []
+    const arr = ['like', 'shine', 'destruction', 'suleman', 'king']
+    arr.map((item, index) => {
+      const obj = {
+        id: `item-${index + offset}`,
+        content: `${item}`
+      }
+      rez.push(obj)
+    })
+    return rez
+  }
 
-  const [state, setState] = useState([getItems(10), getItems(5, 10)]);
+  const [state, setState] = useState([getItems()]);
+  const [content, setArr] = useState([])
 
   function onDragEnd(result) {
     const { source, destination } = result;
@@ -76,9 +80,10 @@ const App = () => {
       setState(newState.filter(group => group.length));
     }
   }
-
   return (
     <div>
+      <input type="text" onChange={(e) => {setArr(e.target.value)}}></input>
+      <button onClick={() => {}}>1231231</button>
       <button
         type="button"
         onClick={() => {
@@ -87,14 +92,14 @@ const App = () => {
       >
         Add new group
       </button>
-      <button
+      {/* <button
         type="button"
         onClick={() => {
           setState([...state, getItems(1)]);
         }}
       >
         Add new item
-      </button>
+      </button> */}
       <div style={{ display: "flex" }}>
         <DragDropContext onDragEnd={onDragEnd}>
           {state.map((el, ind) => (
