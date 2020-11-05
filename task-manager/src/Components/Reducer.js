@@ -1,9 +1,13 @@
-const INITIAL_STATE = {};
+const INITIAL_STATE = {
+  nametask: ''
+};
 
 function reducer(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case 'OPEN__MODAL':
-      return {};
+    case 'ADD__NEW__TASK':
+      return {
+        nametask: action.payload
+      };
     default:
       return state;
   }

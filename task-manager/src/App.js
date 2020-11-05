@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import styled from 'styled-components';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import {useDispatch, useSelector} from 'react-redux'
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -41,6 +42,8 @@ const getListStyle = isDraggingOver => ({
 
 
 const App = () => {
+  const store = useSelector(state => state);
+  const dispatch = useDispatch();
   
   const getItems = (offset = 1) => {
     const rez = []
@@ -56,8 +59,6 @@ const App = () => {
   }
 
   const [state, setState] = useState([getItems()]);
-  const [content, setArr] = useState([])
-
   function onDragEnd(result) {
     const { source, destination } = result;
     if (!destination) {
@@ -82,8 +83,15 @@ const App = () => {
   }
   return (
     <div>
-      <input type="text" onChange={(e) => {setArr(e.target.value)}}></input>
-      <button onClick={() => {}}>1231231</button>
+      <input type="text" onChange={(e) => {
+        dispatch({
+          type: "ADD__NEW__TASK",
+          payload : e.target.value
+        })
+      }}></input>
+      <button onClick={() => {
+
+      }}>add new Task</button>
       <button
         type="button"
         onClick={() => {
