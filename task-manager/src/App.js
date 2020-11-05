@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import './App.css';
 import styled from 'styled-components';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
@@ -42,22 +42,27 @@ const getListStyle = isDraggingOver => ({
 
 
 const App = () => {
+
   const store = useSelector(state => state);
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    setState([getItems()])
+  }, [store.arrtask])
+  
   const getItems = (offset = 1) => {
     const rez = []
     store.arrtask.map((item, index) => {
       const obj = {
         id: `item-${index + offset}`,
         content: `${item}`
-      }
+      }   
       rez.push(obj)
     })
     return rez
   }
 
   const [state, setState] = useState([getItems()]);
+  const [taskvalue, handletaskvalue] = useState()
 
   function onDragEnd(result) {
     const { source, destination } = result;
@@ -83,16 +88,19 @@ const App = () => {
   }
   return (
     <div>
-      <input type="text" onChange={(e) => {
-        dispatch({
-          type: "HANDLE__NAME__TASK",
-          payload : e.target.value
-        })
-      }}></input>
+      <input type="text"
+        required
+        value={taskvalue}
+        onChange={(e) => {
+        handletaskvalue(e.target.value)
+      }}>
+      </input>
       <button onClick={() => {
-        dispatch({
-          type: "ADD__NEW__TASK"
+        taskvalue === undefined ? alert("Введите данные") : dispatch({
+            type: "ADD__NEW__TASK",
+            payload: taskvalue
         })
+        handletaskvalue('')
       }}>add new Task</button>
       <button
         type="button"
@@ -102,7 +110,7 @@ const App = () => {
       >
         Add new group
       </button>
-      
+
       <div style={{ display: "flex" }}>
         <DragDropContext onDragEnd={onDragEnd}>
           {state.map((el, ind) => (
