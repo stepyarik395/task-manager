@@ -1,8 +1,8 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import styled from 'styled-components';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -27,42 +27,30 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 const grid = 8;
 
 const getItemStyle = (isDragging, draggableStyle) => ({
-  userSelect: "none",
+  userSelect: 'none',
   padding: grid * 2,
   margin: `0 0 ${grid}px 0`,
-  background: isDragging ? "lightgreen" : "grey",
-  ...draggableStyle
+  background: isDragging ? 'lightgreen' : 'grey',
+  ...draggableStyle,
 });
-const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? "lightblue" : "lightgrey",
+const getListStyle = (isDraggingOver) => ({
+  background: isDraggingOver ? 'lightblue' : 'lightgrey',
   padding: grid,
-  width: 250
+  width: 250,
 });
-
-
 
 const App = () => {
-
-  const store = useSelector(state => state);
+  const store = useSelector((state) => state);
   const dispatch = useDispatch();
-  useEffect(() => {
-    setState([getItems()])
-  }, [store.arrtask])
-  
-  const getItems = (offset = 1) => {
-    const rez = []
-    store.arrtask.map((item, index) => {
-      const obj = {
-        id: `item-${index + offset}`,
-        content: `${item}`
-      }   
-      rez.push(obj)
-    })
-    return rez
-  }
 
-  const [state, setState] = useState([getItems()]);
-  const [taskvalue, handletaskvalue] = useState()
+  const getItems = (count, offset = 0) =>
+    Array.from({ length: count }, (v, k) => k).map((k) => ({
+      id: `item-${k + offset}-${new Date().getTime()}`,
+      content: `item ${k + offset}`,
+    }));
+
+  const [state, setState] = useState([getItems(10), getItems(5, 10)]);
+  const [taskvalue, handletaskvalue] = useState();
 
   function onDragEnd(result) {
     const { source, destination } = result;
@@ -82,26 +70,11 @@ const App = () => {
       const newState = [...state];
       newState[sInd] = result[sInd];
       newState[dInd] = result[dInd];
-
-      setState(newState.filter(group => group.length));
+      setState(newState.filter((group) => group.length));
     }
   }
   return (
     <div>
-      <input type="text"
-        required
-        value={taskvalue}
-        onChange={(e) => {
-        handletaskvalue(e.target.value)
-      }}>
-      </input>
-      <button onClick={() => {
-        taskvalue === undefined ? alert("Введите данные") : dispatch({
-            type: "ADD__NEW__TASK",
-            payload: taskvalue
-        })
-        handletaskvalue('')
-      }}>add new Task</button>
       <button
         type="button"
         onClick={() => {
@@ -110,8 +83,7 @@ const App = () => {
       >
         Add new group
       </button>
-
-      <div style={{ display: "flex" }}>
+      <div style={{ display: 'flex' }}>
         <DragDropContext onDragEnd={onDragEnd}>
           {state.map((el, ind) => (
             <Droppable key={ind} droppableId={`${ind}`}>
@@ -139,8 +111,8 @@ const App = () => {
                         >
                           <div
                             style={{
-                              display: "flex",
-                              justifyContent: "space-around"
+                              display: 'flex',
+                              justifyContent: 'space-around',
                             }}
                           >
                             {item.content}
@@ -150,7 +122,7 @@ const App = () => {
                                 const newState = [...state];
                                 newState[ind].splice(index, 1);
                                 setState(
-                                  newState.filter(group => group.length)
+                                  newState.filter((group) => group.length)
                                 );
                               }}
                             >
@@ -161,6 +133,27 @@ const App = () => {
                       )}
                     </Draggable>
                   ))}
+                  <input
+                    defaultValue={taskvalue}
+                    type="text"
+                    required
+                    onChange={(e) => {
+                      handletaskvalue(e.target.value);
+                    }}
+                  ></input>
+                  <button
+                    onClick={() => {
+                      taskvalue === undefined
+                        ? alert('Введите данные')
+                        : dispatch({
+                            type: 'ADD__NEW__TASK',
+                            payload: taskvalue,
+                          });
+                      handletaskvalue('');
+                    }}
+                  >
+                    +
+                  </button>
                   {provided.placeholder}
                 </div>
               )}
