@@ -49,7 +49,19 @@ const App = () => {
       content: `item ${k + offset}`,
     }));
 
-  const [state, setState] = useState([getItems(10), getItems(5, 10)]);
+  // const getItems = () => {
+  //   let arr = ['one', 'tow', 'three'];
+  //   let rez = [];
+  //   arr.forEach((item, index) => {
+  //     const obj = {
+  //       id: index,
+  //       content: item,
+  //     };
+  //     rez.push(obj);
+  //   });
+  //   return rez;
+  // };
+  const [state, setState] = useState([getItems(5, 10)]);
   const [taskvalue, handletaskvalue] = useState();
 
   function onDragEnd(result) {
