@@ -43,26 +43,28 @@ const App = () => {
   const store = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const getItems = (count, offset = 0) =>
-    Array.from({ length: count }, (v, k) => k).map((k) => ({
-      id: `item-${k + offset}-${new Date().getTime()}`,
-      content: `item ${k + offset}`,
-    }));
+  // const getItems = (count, offset = 0) =>
+  //   Array.from({ length: count }, (v, k) => k).map((k) => ({
+  //     id: `item-${k + offset}-${new Date().getTime()}`,
+  //     content: `item ${k + offset}`,
+  //   }));
+  const getItems = () => {
+    let tik = 0;
+    const rez = [];
+    const arr = ['default1', 'default2', 'default3'];
+    arr.map((item) => {
+      rez.push({
+        id: tik++,
+        content: item,
+      });
+    });
+    return rez;
+  };
 
-  // const getItems = () => {
-  //   let arr = ['one', 'tow', 'three'];
-  //   let rez = [];
-  //   arr.forEach((item, index) => {
-  //     const obj = {
-  //       id: index,
-  //       content: item,
-  //     };
-  //     rez.push(obj);
-  //   });
-  //   return rez;
-  // };
-  const [state, setState] = useState([getItems(5, 10)]);
+  const [state, setState] = useState([getItems()]);
   const [taskvalue, handletaskvalue] = useState();
+
+  console.log(state);
 
   function onDragEnd(result) {
     const { source, destination } = result;
