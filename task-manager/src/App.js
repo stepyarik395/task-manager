@@ -158,9 +158,8 @@ const App = () => {
                   <button
                     onClick={(e) => {
                       const newState = [...state];
-                      newState.concat(e.target.value);
+                      newState[0].push({});
                       console.log(newState);
-                      // newState.push(e.target.value);
                       // setState([...newState]);
                     }}
                   >
