@@ -158,8 +158,9 @@ const App = () => {
                   <button
                     onClick={(e) => {
                       const newState = [...state];
-                      newState[0].push({});
-                      console.log(newState);
+                      console.log(Object.values(newState));
+                      // newState[0].push({});
+                      // console.log(newState);
                       // setState([...newState]);
                     }}
                   >
