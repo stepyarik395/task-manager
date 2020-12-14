@@ -8,10 +8,10 @@ function reducer(state = INITIAL_STATE, action) {
         nametask: action.payload,
       };
     case 'ADD__NEW__TASK':
-      return {
-        ...state,
-        arrtask: state.arrtask.concat(action.payload),
-      };
+    // return {
+    //   ...state,
+    //   arrtask: state.arrtask.concat(action.payload),
+    // };
     default:
       return state;
   }

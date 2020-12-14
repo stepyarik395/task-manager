@@ -51,10 +51,10 @@ const App = () => {
   const getItems = () => {
     let tik = 0;
     const rez = [];
-    const arr = ['default1', 'default2', 'default3'];
-    arr.map((item) => {
+    const arr = ['default1', 'default2', 'default3', 'default4', 'default5'];
+    arr.map((item, index) => {
       rez.push({
-        id: tik++,
+        id: `${tik + index}`,
         content: item,
       });
     });
@@ -156,14 +156,12 @@ const App = () => {
                     }}
                   ></input>
                   <button
-                    onClick={() => {
-                      taskvalue === undefined
-                        ? alert('Введите данные')
-                        : dispatch({
-                            type: 'ADD__NEW__TASK',
-                            payload: taskvalue,
-                          });
-                      handletaskvalue('');
+                    onClick={(e) => {
+                      const newState = [...state];
+                      newState.concat(e.target.value);
+                      console.log(newState);
+                      // newState.push(e.target.value);
+                      // setState([...newState]);
                     }}
                   >
                     +
