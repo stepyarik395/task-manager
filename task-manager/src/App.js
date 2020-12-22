@@ -90,7 +90,8 @@ const App = () => {
   return (
     <div>
       <input
-        defaultValue={taskvalue}
+        defaultValue={''}
+        value={taskvalue}
         type="text"
         required
         onChange={(e) => {
@@ -101,10 +102,11 @@ const App = () => {
         onClick={(e) => {
           const newState = [...state];
           newState[0].push({
-            id: state[0].length.toString(),
+            id: newState[0].length.toString(),
             content: taskvalue,
           });
           setState(newState);
+          handletaskvalue('');
         }}
       >
         +
