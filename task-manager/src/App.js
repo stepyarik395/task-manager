@@ -89,6 +89,26 @@ const App = () => {
   }
   return (
     <div>
+      <input
+        defaultValue={taskvalue}
+        type="text"
+        required
+        onChange={(e) => {
+          handletaskvalue(e.target.value);
+        }}
+      ></input>
+      <button
+        onClick={(e) => {
+          const newState = [...state];
+          newState[0].push({
+            id: state[0].length.toString(),
+            content: taskvalue,
+          });
+          setState(newState);
+        }}
+      >
+        +
+      </button>
       <button
         type="button"
         onClick={() => {
@@ -147,25 +167,6 @@ const App = () => {
                       )}
                     </Draggable>
                   ))}
-                  <input
-                    defaultValue={taskvalue}
-                    type="text"
-                    required
-                    onChange={(e) => {
-                      handletaskvalue(e.target.value);
-                    }}
-                  ></input>
-                  <button
-                    onClick={(e) => {
-                      const newState = [...state];
-                      console.log(Object.values(newState));
-                      // newState[0].push({});
-                      // console.log(newState);
-                      // setState([...newState]);
-                    }}
-                  >
-                    +
-                  </button>
                   {provided.placeholder}
                 </div>
               )}
